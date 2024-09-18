@@ -7,7 +7,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     echo "<div class='alert alert-warning' role='alert'>
             <h4 class='alert-heading'>รถเข็นของคุณยังไม่มีสินค้า</h4>
@@ -22,8 +21,6 @@ $productIds = implode(',', array_keys($cartItems));
 $query = $condb->prepare("SELECT * FROM tbl_product WHERE id IN ($productIds)");
 $query->execute();
 $products = $query->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -42,31 +39,44 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
                 <tr class="table-info">
                     <th>ชื่อสินค้า</th>
                     <th>ราคาต่อหน่วย</th>
+                    <th>ราคาทุน</th>
                     <th>จำนวน</th>
                     <th>ราคารวม</th>
+                    <th>กำไร</th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
                 $totalPrice = 0;
+                $totalCost = 0;
+                $totalProfit = 0;
                 foreach ($products as $product): 
                     $quantity = $cartItems[$product['id']];
                     $total = $product['product_price'] * $quantity;
+                    $cost = $product['cost_price'] * $quantity;
+                    $profit = $total - $cost;
+                    
                     $totalPrice += $total;
+                    $totalCost += $cost;
+                    $totalProfit += $profit;
                 ?>
                 <tr>
                     <td><?= $product['product_name']; ?></td>
                     <td><?= number_format($product['product_price'], 2); ?> บาท</td>
+                    <td><?= number_format($product['cost_price'], 2); ?> บาท</td>
                     <td><?= $quantity; ?></td>
                     <td><?= number_format($total, 2); ?> บาท</td>
+                    <td><?= number_format($profit, 2); ?> บาท</td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
         <div class="d-flex justify-content-between align-items-center">
             <h3>ยอดรวมทั้งหมด: <?= number_format($totalPrice, 2); ?> บาท</h3>
+            <h4>ต้นทุนรวม: <?= number_format($totalCost, 2); ?> บาท</h4>
+            <h4>กำไรรวม: <?= number_format($totalProfit, 2); ?> บาท</h4>
             <form action="process_payment.php" method="POST">
-            <a href="cart.php" class="btn btn-primary">กลับไปยังรถเข็น</a>
+                <a href="cart.php" class="btn btn-primary">กลับไปยังรถเข็น</a>
                 <button type="submit" class="btn btn-success">ยืนยันการนำออก</button>
             </form>
         </div>

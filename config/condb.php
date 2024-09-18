@@ -1,4 +1,5 @@
 <?php
+//ini_set('display_errors', 0);
 $servername = "localhost";
 $username = "root";
 $password = ""; //ถ้าไม่ได้ตั้งรหัสผ่านให้ลบ yourpassword ออก

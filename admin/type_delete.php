@@ -1,31 +1,34 @@
 <?php 
+ 
 if(isset($_GET['id']) && $_GET['act']=='delete'){
-
-    //trigger exception in a "try" block
-    try {
-
-    $id = $_GET['id'];
-    //echo $id;
-
-$stmtDelMember = $condb->prepare('DELETE FROM tbl_member WHERE id=:id');
-$stmtDelMember->bindParam(':id', $id , PDO::PARAM_INT);
-$stmtDelMember->execute();
-
+ 
+ 
+//trigger exception in a "try" block
+try {
+ 
+$id = $_GET['id'];
+   //echo $id;
+ 
+$stmtDeltype = $condb->prepare('DELETE FROM tbl_type WHERE type_id=:id');
+$stmtDeltype->bindParam(':id', $id , PDO::PARAM_INT);
+$stmtDeltype->execute();
+ 
 $condb = null; //close connect db
-// echo 'จำนวน row ที่ลบได้'.$stmtDelMember->rowCount();
-if($stmtDelMember->rowCount() ==1){
+//echo 'จำนวน row ที่ลบได้ ' .$stmtDeltype->rowCount();
+if($stmtDeltype->rowCount() == 1){
     echo '<script>
          setTimeout(function() {
           swal({
               title: "ลบข้อมูลสำเร็จ",
               type: "success"
           }, function() {
-              window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
+              window.location = "type.php"; //หน้าที่ต้องการให้กระโดดไป
           });
         }, 1000);
     </script>';
-    exit();
-}
+exit;
+} 
+ 
 } //try
 //catch exception
 catch(Exception $e) {
@@ -36,10 +39,10 @@ catch(Exception $e) {
               title: "เกิดข้อผิดพลาด",
               type: "error"
           }, function() {
-              window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
+              window.location = "type.php"; //หน้าที่ต้องการให้กระโดดไป
           });
         }, 1000);
     </script>';
   } //catch
-}
+} //isset
 ?>

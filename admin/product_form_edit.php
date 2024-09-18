@@ -152,7 +152,7 @@ if(isset($_POST['product_name']) && isset($_POST['ref_type_id']) && isset($_POST
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
     $product_qty = $_POST['product_qty'];
-    $cost_price = $_POST['cost_price']; // รับค่าราคาทุน
+    $cost_price = $_POST['cost_price']; 
     $id = $_POST['id'];
     $upload = $_FILES['product_image']['name'];
 

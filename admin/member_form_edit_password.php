@@ -49,7 +49,8 @@ if(isset($_GET['id']) && $_GET['act'] == 'editPwd' ){
                                         <div class="col-sm-4">
                                             <input type="text" name="name" class="form-control" required
                                                 placeholder="ชื่อ"
-                                                value="<?php echo $row['title_name'].$row['name'].' '.$row['surname'];?>" disabled>
+                                                value="<?php echo $row['title_name'].$row['name'].' '.$row['surname'];?>"
+                                                disabled>
                                         </div>
                                     </div>
 
@@ -99,6 +100,9 @@ if(isset($_GET['id']) && $_GET['act'] == 'editPwd' ){
 
 <?php 
 if(isset($_POST['id']) && isset($_POST['NewPassword']) && isset($_POST['ConfirmPassword'])){
+    
+    //trigger exception in a "try" block
+    try {
 
     $id = $_POST['id'];   
     $NewPassword = $_POST['NewPassword'];  
@@ -143,18 +147,24 @@ if(isset($_POST['id']) && isset($_POST['NewPassword']) && isset($_POST['ConfirmP
                   });
                 }, 1000);
             </script>';
-        } else {
-           echo '<script>
-                 setTimeout(function() {
-                  swal({
-                      title: "เกิดข้อผิดพลาด",
-                      type: "error"
-                  }, function() {
-                      window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
-                  });
-                }, 1000);
-            </script>';
-        }
+        } 
     }  
+
+} //try
+//catch exception
+catch(Exception $e) {
+    //echo 'Message: ' .$e->getMessage();
+    echo '<script>
+         setTimeout(function() {
+          swal({
+              title: "เกิดข้อผิดพลาด",
+              text: "กรุณาติดต่อผู้ดูแลระบบ",
+              type: "error"
+          }, function() {
+              window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
+          });
+        }, 1000);
+    </script>';
+  } //catch
 } 
 ?>

@@ -38,8 +38,9 @@ $rsMember = $queryMember->fetchAll();
                   <thead>
                   <tr class="table-info" >
                     <th width="5%" class="text-center">No.</th>
-                    <th width="48%">ชื่อ - นามสกุล</th>
+                    <th width="38%">ชื่อ - นามสกุล</th>
                     <th width="30%">Email/Username</th>
+                    <th width="10%">Role</th>
                     <th width="7%"class="text-center">แก้รหัส</th>
                     <th width="5%"class="text-center">แก้ไข</th>
                     <th width="5%"class="text-center">ลบ</th>
@@ -53,6 +54,7 @@ $rsMember = $queryMember->fetchAll();
                     <td align="center"> <?php echo $i++ ?> </td>
                     <td><?=$row['title_name'].$row['name'].'  '.$row['surname'];?></td>
                     <td><?=$row['username'];?></td>
+                    <td><?=$row['role'];?></td>
                     <td align="center"><a href="member.php?id=<?=$row['id'];?>&act=editPwd" class="btn btn-info btn-sm">แก้รหัส</a></td>
                     <td align="center"><a href="member.php?id=<?=$row['id'];?>&act=edit" class="btn btn-warning btn-sm">แก้ไข</a></td>
                     <td align="center"><a href="member.php?id=<?=$row['id'];?>&act=delete" class="btn btn-danger btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่');">ลบ</a></td>

@@ -53,10 +53,17 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li class="nav-item">
                     <a href="member.php" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>จัดการสมาชิก</p>
+                        <p>จัดการข้อมูลพนักงาน</p>
                     </a>
                 </li>
                 <?php } ?>
+
+                <li class="nav-item">
+                    <a href="type.php" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>จัดการหมวดหมู่สินค้า</p>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a href="product.php" class="nav-link">

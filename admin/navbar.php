@@ -30,9 +30,7 @@ $lowStockItems = $stmtCountLowStock->fetchAll(PDO::FETCH_ASSOC);
         <li class="nav-item d-none d-sm-inline-block">
             <a href="main.php" class="nav-link">หน้าแรก</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">ติดต่อ</a>
-        </li>
+        
     </ul>
 
     <!-- Right navbar links -->
@@ -41,13 +39,15 @@ $lowStockItems = $stmtCountLowStock->fetchAll(PDO::FETCH_ASSOC);
         <li class="nav-item position-relative">
             <a class="nav-link" data-toggle="modal" data-target="#notificationModal">
                 <i class="fas fa-bell fa-lg"></i>
-                <span class="notification-badge"> <?=count($lowStockItems);?> </span>
+                <?php if (count($lowStockItems) > 0): ?>
+                    <span class="notification-badge"><?= count($lowStockItems); ?></span>
+                <?php endif; ?>
             </a>
         </li>
         
         <li class="nav-item">
-    <a href="logout.php" class="btn btn-outline-primary me-4" style="margin-left: 15px;">Logout</a>
-</li>
+            <a href="logout.php" class="btn btn-outline-primary me-4" style="margin-left: 15px;">Logout</a>
+        </li>
     </ul>
 </nav>
 <!-- /.navbar -->
@@ -65,7 +65,7 @@ $lowStockItems = $stmtCountLowStock->fetchAll(PDO::FETCH_ASSOC);
             <div class="modal-body">
                 <ul>
                     <?php foreach ($lowStockItems as $item): ?>
-                        <li>ชื่อสินค้าที่เหลือน้อย: <?=htmlspecialchars($item['product_name']);?> </li> 
+                        <li>ชื่อสินค้าที่เหลือน้อย: <?= htmlspecialchars($item['product_name']); ?> </li> 
                     <?php endforeach; ?>
                 </ul>
             </div>

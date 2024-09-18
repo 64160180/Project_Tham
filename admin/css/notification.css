@@ -11,6 +11,10 @@
     font-weight: bold;
 }
 
+.notification-badge:empty {
+    display: none;
+}
+
 /* Modal Header Style */
 .modal-header {
     background-color: #f8f9fa;
@@ -61,4 +65,5 @@
 .navbar-nav .btn-outline-primary {
     margin-left: 15px; 
 }
+
 

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>เพิ่มข้อมูลสมาชิก</h1>
+                    <h1>เพิ่มข้อมูลหนักงาน</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -20,6 +20,17 @@
                             <!-- form start -->
                             <form action="" method="post">
                                 <div class="card-body">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2">สิทธิ์การใช้งาน</label>
+                                        <div class="col-sm-3">
+                                            <select name="role" class="form-control" required>
+                                                <option value="">-- เลือกข้อมูล --</option>
+                                                <option value="admin">-- admin --</option>
+                                                <option value="user">-- user --</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group row">
                                         <label class="col-sm-2">Email/Username</label>
@@ -102,14 +113,19 @@
                             //     exit;
 
                              if(isset($_POST['username']) && isset($_POST['name']) && isset($_POST['surname'])){
+                                //  echo 'ถูกเงื่อนไข ส่งข้อมูลมาได้';
 
-                            //  echo 'ถูกเงื่อนไข ส่งข้อมูลมาได้';
+                                 //trigger exception in a "try" block
+                            try {
+
+                
                             //ประกาศตัวแปรรับค่าจากฟอร์ม
                             $username = $_POST['username'];
                             $password = sha1($_POST['password']);
                             $title_name = $_POST['title_name'];
                             $name = $_POST['name'];
                             $surname = $_POST['surname'];
+                            $role = $_POST['role'];
 
                             //เช็ค Username ซ้ำ
                             //single roe query แสดงแค่ 1 รายการ
@@ -140,13 +156,14 @@
                             }else{
                                 //echo 'ไม่มี username ซ้ำ';
                                 //sql insert
-                            $stmtInsertMember = $condb->prepare("INSERT INTO tbl_member 
+                            $stmtInsertMember = $condb->prepare("INSERT INTO tbl_member
                             (
                                 username,
                                 password,
                                 title_name,
                                 name, 
-                                surname
+                                surname,
+                                role
                             )
                             VALUES
                             (
@@ -154,7 +171,8 @@
                                 '$password',
                                 :title_name,
                                 :name, 
-                                :surname
+                                :surname,
+                                :role
                             ) 
                             ");
 
@@ -163,6 +181,7 @@
                             $stmtInsertMember->bindParam(':title_name', $title_name, PDO::PARAM_STR);
                             $stmtInsertMember->bindParam(':name', $name, PDO::PARAM_STR);
                             $stmtInsertMember->bindParam(':surname', $surname , PDO::PARAM_STR);
+                            $stmtInsertMember->bindParam(':role', $role , PDO::PARAM_STR);
                             $result = $stmtInsertMember->execute();
 
                             $condb = null; //close connect db
@@ -178,18 +197,22 @@
                                       });
                                     }, 1000);
                                 </script>';
-                            }else{
-                               echo '<script>
-                                     setTimeout(function() {
-                                      swal({
-                                          title: "เกิดข้อผิดพลาด",
-                                          type: "error"
-                                      }, function() {
-                                          window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
-                                      });
-                                    }, 1000);
-                                </script>';
-                            } //else if
+                            }
                         } //เช็คข้อมูลซ้ำ
+                    } //try
+                    //catch exception
+                    catch(Exception $e) {
+                        //echo 'Message: ' .$e->getMessage();
+                        echo '<script>
+                             setTimeout(function() {
+                              swal({
+                                  title: "เกิดข้อผิดพลาด",
+                                  type: "error"
+                              }, function() {
+                                  window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
+                              });
+                            }, 1000);
+                        </script>';
+                      } //catch
                      } //isset
                             ?>

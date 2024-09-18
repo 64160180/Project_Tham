@@ -26,7 +26,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1> แก้ไขข้อมูลสมาชิก </h1>
+                    <h1> แก้ไขข้อมูลพนักงาน </h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -43,9 +43,21 @@
                                 <div class="card-body">
 
                                 <div class="form-group row">
+                                        <label class="col-sm-2">สิทธิ์การใช้งาน</label>
+                                        <div class="col-sm-3">
+                                            <select name="role" class="form-control" required>
+                                            <option value="<?php echo $row['role'];?>">-- <?php echo $row['role'];?> --</option>
+                                            <option disabled>-- เลือกข้อมูลใหม่ --</option>
+                                                <option value="admin">-- admin --</option>
+                                                <option value="user">-- user --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                <div class="form-group row">
                                         <label class="col-sm-2">Email/Username</label>
                                         <div class="col-sm-4">
-                                            <input type="email" name="username" class="form-control" value="<?php echo $row['username'];?>" disabled>
+                                            <input type="email" name="username" class="form-control" value="<?php echo $row['username'];?>" require>
                                         </div>
                                     </div>
 
@@ -118,18 +130,24 @@
 
                                 // echo 'เข้ามา';
                                 // exit;
+                             //trigger exception in a "try" block
+                            try {
 
                             //ประกาศตัวแปรรับค่าจากฟอร์ม
                             $id = $_POST['id'];  
                             $title_name = $_POST['title_name'];  
                             $name = $_POST['name'];
                             $surname = $_POST['surname'];
+                            $role = $_POST['role'];
+                            $username = $_POST['username'];
 
                             //sql update
                             $stmtUpdate = $condb->prepare("UPDATE tbl_member SET
                             title_name=:title_name, 
                             name=:name, 
-                            surname=:surname 
+                            surname=:surname,
+                            role=:role,
+                            username=:username
                             WHERE id=:id
                             ");
                             //bindParam
@@ -137,7 +155,8 @@
                             $stmtUpdate->bindParam(':title_name', $title_name , PDO::PARAM_STR);
                             $stmtUpdate->bindParam(':name', $name , PDO::PARAM_STR);
                             $stmtUpdate->bindParam(':surname', $surname , PDO::PARAM_STR);
-                            
+                            $stmtUpdate->bindParam(':role', $role , PDO::PARAM_STR);
+                            $stmtUpdate->bindParam(':username', $username , PDO::PARAM_STR);
                             $result = $stmtUpdate->execute();
 
                             $condb = null; //close connect db
@@ -153,17 +172,22 @@
                                       });
                                     }, 1000);
                                 </script>';
-                            }else{
-                               echo '<script>
-                                     setTimeout(function() {
-                                      swal({
-                                          title: "เกิดข้อผิดพลาด",
-                                          type: "error"
-                                      }, function() {
-                                          window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
-                                      });
-                                    }, 1000);
-                                </script>';
                             }
+                        } //try
+                        //catch exception
+                        catch(Exception $e) {
+                            //echo 'Message: ' .$e->getMessage();
+                            echo '<script>
+                                 setTimeout(function() {
+                                  swal({
+                                      title: "เกิดข้อผิดพลาด",
+                                      text: "กรุณาติดต่อผู้ดูแลระบบ/Username ซ้ำ!!",
+                                      type: "error"
+                                  }, function() {
+                                      window.location = "member.php"; //หน้าที่ต้องการให้กระโดดไป
+                                  });
+                                }, 1000);
+                            </script>';
+                          } //catch
                             } //isset 
  ?>

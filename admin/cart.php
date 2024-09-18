@@ -76,7 +76,7 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
             <h3>ยอดรวมทั้งหมด: <?= number_format($totalPrice, 2); ?> บาท</h3>
             <div>
                 <a href="product.php" class="btn btn-primary">กลับไปยังหน้าสินค้า</a>
-                <a href="checkout.php" class="btn btn-success">นำออก</a>
+                <a href="payment.php" class="btn btn-success">นำออก</a>
             </div>
         </div>
     </div>
